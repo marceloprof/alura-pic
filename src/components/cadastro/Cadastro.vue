@@ -18,7 +18,7 @@
       </div>
       <div class="centralizado">
         <meu-botao tipo="submit" rotulo="GRAVAR"></meu-botao>
-        <router-link to="/"><meu-botao tipo="button" rotulo="VOLTAR"/></router-link>
+        <router-link :to="{name: 'home'}"><meu-botao tipo="button" rotulo="VOLTAR"/></router-link>
       </div>
 
     </form>
@@ -28,6 +28,7 @@
   import ImagemResponsiva from '../shared/imagem-responsiva/ImagemResponsiva.vue'
   import Botao from '../shared/botao/Botao.vue'
   import Foto from '../../domains/Foto'
+  import FotoService from '../../domains/FotoService'
   export default{
 
       components:{
@@ -43,9 +44,13 @@
 
       methods: {
           gravar(){
-              this.$http.post('http://localhost:3000/v1/fotos', this.foto)
+              this.service.cadastrar(this.foto)
                 .then(() => this.foto = new Foto(), err => console.log(err));
           }
+      },
+
+      created(){
+          this.service = new FotoService(this.$resource);
       }
 
   }
