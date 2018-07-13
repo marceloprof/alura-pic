@@ -1,15 +1,18 @@
 <template>
   <div>
-    <h1 class="centralizado">Cadastro</h1>
+    <h1 v-if="this.id" class="centralizado">Edição</h1>
+    <h1 v-else class="centralizado">Cadastro</h1>
     <h2 class="centralizado">{{foto.titulo}}</h2>
     <form @submit.prevent="gravar()">
       <div class="controle">
         <label for="titulo">TÍTULO</label>
-        <input type="text" id="titulo" v-model.lazy="foto.titulo"/>
+        <input name="titulo" data-vv-as="título" v-validate data-vv-rules="required|min:3|max:30" type="text" id="titulo" v-model="foto.titulo"/>
+        <span v-show="errors.has('titulo')" >{{errors.first('titulo')}}</span>
       </div>
       <div class="controle">
         <label for="url">URL</label>
-        <input type="text" id="url" v-model.lazy="foto.url"/>
+        <input name="url" v-validate data-vv-rules="required" type="text" id="url" v-model="foto.url"/>
+        <span v-show="errors.has('url')" >{{errors.first('url')}}</span>
         <imagem-responsiva v-show="foto.url" :url="foto.url" :titulo="foto.titulo"/>
       </div>
       <div class="controle">
